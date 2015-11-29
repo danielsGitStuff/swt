@@ -2,6 +2,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
 /**
@@ -13,7 +16,7 @@ public class testVereinTest {
     private Artikel schrank, computer;
 
     @Before
-    public void before() throws Exception {
+    public void setUp() throws Exception {
         peter = new StandardMitglied(1, "Peter", "Schmidt");
         paul = new StandardMitglied(2, "Paul", "Jahnke");
         susanne = new PremiumMitglied(3, "Susanne", "Fischer");
@@ -28,7 +31,7 @@ public class testVereinTest {
     }
 
     @After
-    public void after() throws Exception {
+    public void tearDown() throws Exception {
 
     }
 
