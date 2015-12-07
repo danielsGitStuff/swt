@@ -1,9 +1,8 @@
+import e.ThouShaltNotDeceptException;
+import e.ThouShaltNotGoShortException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -49,16 +48,29 @@ public class testVereinTest {
         assertEquals(peter.getArtikelTable().get(schrank.getName()).getMenge(), 4);
     }
 
-    @Test
-    public void test3() {
+    @Test(expected = ThouShaltNotGoShortException.class)
+    public void testGoShort() {
         peter.verkaufen(schrank, paul, 666);
-        assertEquals(peter.getBonusPunkte(), 5994d, 0.0000001d);
-        // peter macht leerverkäufe
-        assertEquals(peter.getArtikelTable().get(schrank.getName()).getMenge(), -661);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void test4() {
+    @Test(expected = ThouShaltNotDeceptException.class)
+    public void testDeception() {
         peter.verkaufen(computer, paul, 666);
+    }
+
+    @Test
+    public void testObserver() {
+        peter.addObserver(paul);
+        peter.verkaufen(schrank, susanne,1);
+        Mitglied observed = paul.getObserved();
+        assertEquals(observed.getArtikelTable().get(schrank.getName()).getMenge(), 4);
+    }
+
+    @Test
+    public void testObserver2() {
+        peter.addObserver(paul);
+        peter.addArtikel(computer,200);
+        Mitglied observed = paul.getObserved();
+        assertEquals(observed.getArtikelTable().get(computer.getName()).getMenge(), 200);
     }
 }

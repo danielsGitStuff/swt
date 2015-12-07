@@ -1,11 +1,15 @@
-import java.util.HashMap;
-import java.util.Map;
+import e.ThouShaltNotDeceptException;
+import e.ThouShaltNotGoShortException;
 
-abstract class Mitglied {
+import java.util.*;
+
+abstract class Mitglied extends Observable implements Observer {
     private String name, vorname;
     private int mitgliedNummer;
     private float bonusPunkte;
     protected float bonusPunkteGutSchriftRatio;
+    private Mitglied observed;
+
     private Map<String, Artikel.ArtikelEintrag> artikelTable = new HashMap<>();
 
     public Mitglied(int id, String vorname, String name) {
@@ -19,10 +23,17 @@ abstract class Mitglied {
     }
 
     // so ist es mit mehr Objektorientierung
-    public void verkaufen(Artikel artikel, Mitglied kaufer, int menge) {
+    public void verkaufen(Artikel artikel, Mitglied kaufer, int menge) throws ThouShaltNotGoShortException, ThouShaltNotDeceptException {
+        if (!artikelTable.containsKey(artikel.getName()))
+            throw new ThouShaltNotDeceptException();
         float wert = artikelTable.get(artikel.getName()).getArtikel().getPreis() * menge;
-        artikelTable.get(artikel.getName()).dec(menge);
-        bonusPunkte += wert * bonusPunkteGutSchriftRatio;
+        Artikel.ArtikelEintrag eintrag = artikelTable.get(artikel.getName());
+        if (eintrag.getMenge()>=menge) {
+            eintrag.dec(menge);
+            bonusPunkte += wert * bonusPunkteGutSchriftRatio;
+            setChanged();
+            notifyObservers();
+        }else throw new ThouShaltNotGoShortException();
     }
 
     public String getName() {
@@ -42,10 +53,22 @@ abstract class Mitglied {
     }
 
     public void addArtikel(Artikel artikel, int menge) {
-        if (artikelTable.containsKey(artikel.getName()))
-            artikelTable.get(artikel.getName()).setMenge(menge);
-        else
+        if (artikelTable.containsKey(artikel.getName())) {
+            Artikel.ArtikelEintrag olde = artikelTable.get(artikel.getName());
+            olde.setMenge(olde.getMenge() + menge);
+        } else
             artikelTable.put(artikel.getName(), new Artikel.ArtikelEintrag(artikel).setMenge(menge));
+        setChanged();
+        notifyObservers();
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        observed = (Mitglied) o;
+    }
+
+
+    public Mitglied getObserved() {
+        return observed;
+    }
 }
