@@ -1,9 +1,11 @@
+package data;
+
 import e.ThouShaltNotDeceptException;
 import e.ThouShaltNotGoShortException;
 
 import java.util.*;
 
-abstract class Mitglied extends Observable implements Observer {
+public abstract class Mitglied extends Observable implements Observer {
     private String name, vorname;
     private int mitgliedNummer;
     private float bonusPunkte;
@@ -18,7 +20,7 @@ abstract class Mitglied extends Observable implements Observer {
         this.name = name;
     }
 
-    Map<String, Artikel.ArtikelEintrag> getArtikelTable() {
+    public Map<String, Artikel.ArtikelEintrag> getArtikelTable() {
         return artikelTable;
     }
 

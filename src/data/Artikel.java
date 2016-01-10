@@ -1,3 +1,5 @@
+package data;
+
 /**
  * Created by xor on 29.11.2015.
  */

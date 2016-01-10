@@ -1,3 +1,4 @@
+import data.*;
 import e.ThouShaltNotDeceptException;
 import e.ThouShaltNotGoShortException;
 import org.junit.After;
@@ -35,31 +36,31 @@ public class testVereinTest {
     }
 
     @Test
-    public void test1() {
+    public void test1() throws ThouShaltNotGoShortException, ThouShaltNotDeceptException {
         susi.verkaufen(computer, paul, 1);
         assertEquals(susi.getBonusPunkte(), 35d, 0.0000001d);
         assertEquals(susi.getArtikelTable().get(computer.getName()).getMenge(), 9);
     }
 
     @Test
-    public void test2() {
+    public void test2() throws ThouShaltNotGoShortException, ThouShaltNotDeceptException {
         peter.verkaufen(schrank, paul, 1);
         assertEquals(peter.getBonusPunkte(), 9d, 0.0000001d);
         assertEquals(peter.getArtikelTable().get(schrank.getName()).getMenge(), 4);
     }
 
     @Test(expected = ThouShaltNotGoShortException.class)
-    public void testGoShort() {
+    public void testGoShort() throws ThouShaltNotGoShortException, ThouShaltNotDeceptException {
         peter.verkaufen(schrank, paul, 666);
     }
 
     @Test(expected = ThouShaltNotDeceptException.class)
-    public void testDeception() {
+    public void testDeception() throws ThouShaltNotGoShortException, ThouShaltNotDeceptException {
         peter.verkaufen(computer, paul, 666);
     }
 
     @Test
-    public void testObserver() {
+    public void testObserver() throws ThouShaltNotGoShortException, ThouShaltNotDeceptException {
         peter.addObserver(paul);
         peter.verkaufen(schrank, susanne,1);
         Mitglied observed = paul.getObserved();
