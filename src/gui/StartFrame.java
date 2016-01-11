@@ -4,19 +4,17 @@ import data.Stamm;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Created by xor on 10.01.2016.
  */
-public class Gui extends JFrame {
+public class StartFrame extends JFrame {
     private JButton btnInsert;
     private JButton btnRefresh;
     private JButton btnDelete;
     private Stamm stamm;
 
-    public Gui(Stamm stamm) {
+    public StartFrame(Stamm stamm) {
         this.stamm = stamm;
         setLayout(new FlowLayout());
         btnInsert = new JButton("einfügen");
@@ -39,6 +37,6 @@ public class Gui extends JFrame {
     }
 
     public static void main(String... args) {
-        new Gui(new Stamm("bla")).setVisible(true);
+        new StartFrame(new Stamm("bla")).setVisible(true);
     }
 }
