@@ -6,6 +6,7 @@ import e.ThouShaltNotGoShortException;
 import java.util.*;
 
 public abstract class Mitglied extends Observable implements Observer {
+    private static int ID = 0;
     private String name, vorname;
     private int mitgliedNummer;
     private float bonusPunkte;
@@ -72,5 +73,9 @@ public abstract class Mitglied extends Observable implements Observer {
 
     public Mitglied getObserved() {
         return observed;
+    }
+
+    public static int generateId() {
+        return ID++;
     }
 }

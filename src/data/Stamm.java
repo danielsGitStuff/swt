@@ -28,4 +28,8 @@ public class Stamm {
     public void entferne(int id) {
         mitglieder = mitglieder.stream().filter(m -> m.getMitgliedNummer() != id).collect(Collectors.toList());
     }
+
+    public boolean exists(Mitglied mitglied) {
+        return mitglieder.stream().anyMatch(m -> m.getMitgliedNummer() == mitglied.getMitgliedNummer());
+    }
 }
